@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Statics - Interactive Guide</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1e1e2d;
+            --primary: #7f9cf5;
+            --primary-dark: #4c6ef5;
+            --secondary: #63e6be;
+            --text: #e1e1e1;
+            --text-secondary: #a0a0a0;
+            --highlight: #ff7597;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page {
+            display: none;
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        h1 {
+            border-bottom: 2px solid var(--primary-dark);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        h2 {
+            margin-top: 30px;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        
+        .definition {
+            background-color: rgba(127, 156, 245, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example {
+            background-color: rgba(99, 230, 190, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .think-box {
+            background-color: rgba(255, 117, 151, 0.1);
+            border-left: 4px solid var(--highlight);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .think-box h3 {
+            color: var(--highlight);
+            margin-top: 0;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        button {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .start-button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: var(--secondary);
+            color: var(--bg-dark);
+        }
+        
+        .start-button:hover {
+            background-color: #00b4a0;
+        }
+        
+        .intro-card {
+            text-align: center;
+            max-width: 700px;
+            margin: 50px auto;
+        }
+        
+        .intro-card h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            border: none;
+        }
+        
+        .intro-card p {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+        
+        .visual {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .visual img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        
+        .key-point {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .analogy {
+            font-style: italic;
+            color: var(--text-secondary);
+            border-left: 2px solid var(--text-secondary);
+            padding-left: 15px;
+            margin: 15px 0;
+        }
+        
+        code {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .matrix {
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .matrix table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        .matrix td {
+            padding: 8px 12px;
+            text-align: center;
+            border: 1px solid var(--text-secondary);
+        }
+
+        .deep-dive {
+            background-color: rgba(99, 230, 190, 0.2);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .why-important {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .equation {
+            background-color: rgba(127, 156, 245, 0.2);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .solution-steps {
+            background-color: rgba(127, 156, 245, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .device-explanation {
+            background-color: rgba(255, 214, 0, 0.1);
+            border-left: 4px solid #ffd600;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <div class="intro-card">
+                <h1>🌊 Fluid Statics & Pressure Measurement</h1>
+                <p>Master the fundamentals of fluid pressure, measurement devices, and practical applications in this interactive guide</p>
+                <button class="start-button" onclick="showPage('intro-page')">Dive In!</button>
+            </div>
+        </div>
+        
+        <!-- Introduction Page -->
+        <div id="intro-page" class="page">
+            <h1><span class="emoji">👋</span> Welcome to Fluid Statics!</h1>
+            
+            <p>Hello future fluid mechanics expert! This guide will help you understand the core concepts of fluid statics and pressure measurement that your lecture notes cover. We'll go beyond just the formulas to build real intuition.</p>
+            
+            <div class="visual">
+                <p>Imagine you're a scuba diver exploring a lake:</p>
+                <ul>
+                    <li>As you dive deeper, your ears pop from increasing pressure <span class="emoji">👂</span></li>
+                    <li>Your depth gauge uses fluid principles to measure how deep you are <span class="emoji">📏</span></li>
+                    <li>The air bubbles rising maintain their shape due to surface tension <span class="emoji">🫧</span></li>
+                </ul>
+                <p class="key-point">All these phenomena are explained by fluid statics!</p>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🔍</span> What We'll Explore</h3>
+                <p>In this guide, we'll cover:</p>
+                <ol>
+                    <li>Absolute vs gauge pressure and how to calculate them</li>
+                    <li>The hydrostatic pressure equation and its applications</li>
+                    <li>Various pressure measurement devices (barometers, piezometers, manometers)</li>
+                    <li>Practical examples and problem-solving techniques</li>
+                    <li>Industrial pressure measurement tools</li>
+                </ol>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🤔</span> Think About This</h3>
+                <p>Why does pressure increase with depth in a fluid? What would happen if water were compressible like air?</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">💎</span> Why This Matters</h3>
+                <p>Understanding fluid statics is crucial for:</p>
+                <ul>
+                    <li>Designing dams, water towers, and hydraulic systems</li>
+                    <li>Creating accurate weather measurement devices</li>
+                    <li>Medical applications like blood pressure monitoring</li>
+                    <li>Industrial processes involving fluids</li>
+                </ul>
+            </div>
+            
+            <div class="analogy">
+                Think of this like learning the rules of water before becoming a swimmer. The principles might seem abstract at first, but they're what keep you afloat when you're solving real problems!
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('home-page')">Back</button>
+                <button onclick="showPage('page1')">Let's Begin!</button>
+            </div>
+        </div>
+        
+        <!-- Page 1 Content (Note Page 1) -->
+        <div id="page1" class="page">
+            <h1><span class="emoji">📖</span> Module Introduction</h1>
+            
+            <div class="definition">
+                <h3><span class="emoji">📚</span> CE1120: Elementary Fluid Mechanics and Thermodynamics</h3>
+                <p>This module covers the fundamental principles governing fluids at rest (statics) and in motion (dynamics), along with basic thermodynamic concepts.</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">🧐</span> Why Start With Fluid Statics?</h3>
+                <p>Fluid statics is the foundation because:</p>
+                <ul>
+                    <li>It's simpler - no moving fluids means no complex velocity calculations</li>
+                    <li>The principles directly apply to many practical engineering problems</li>
+                    <li>It introduces key concepts like pressure that carry over to fluid dynamics</li>
+                </ul>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🌊</span> What is Fluid Statics?</h3>
+                <p>Fluid statics studies fluids at rest. The key characteristics are:</p>
+                <ul>
+                    <li>No relative motion between fluid particles</li>
+                    <li>No shear stresses (only normal pressure forces)</li>
+                    <li>Pressure varies only with depth (hydrostatic pressure distribution)</li>
+                </ul>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">💡</span> Key Insight</h3>
+                <p>The pressure at any point in a static fluid depends only on:</p>
+                <ol>
+                    <li>The depth below the surface</li>
+                    <li>The fluid's density</li>
+                    <li>The external pressure at the surface</li>
+                </ol>
+                <p>It doesn't matter what shape the container is!</p>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('intro-page')">Previous</button>
+                <button onclick="showPage('page2')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 2 Content (Note Page 2 - Example 1) -->
+        <div id="page2" class="page">
+            <h1><span class="emoji">📖</span> Pressure at Depth: Lake Example</h1>
+            
+            <div class="example">
+                <h3><span class="emoji">🌊</span> Example Problem</h3>
+                <p>A lake has a maximum depth of 60 m, and the mean atmospheric pressure is 91 kPa. Estimate the absolute pressure and gauge pressure in kPa at this maximum depth.</p>
+            </div>
+            
+            <div class="solution-steps">
+                <h3><span class="emoji">🔢</span> Solution Steps</h3>
+                <p><strong>Given:</strong></p>
+                <ul>
+                    <li>Depth (h) = 60 m</li>
+                    <li>Atmospheric pressure (pₐ) = 91 kPa</li>
+                    <li>Water specific weight (γ) = 9790 N/m³ (from Table 2.1)</li>
+                </ul>
+                
+                <p><strong>Key Equation:</strong></p>
+                <div class="equation">
+                    <p>Hydrostatic pressure equation:</p>
+                    <p>p = pₐ + γh</p>
+                </div>
+                
+                <p><strong>Calculation:</strong></p>
+                <p>Absolute pressure:</p>
+                <p>p = 91,000 Pa + (9790 N/m³)(60 m) = 91,000 + 587,400 = 678,400 Pa ≈ 678 kPa</p>
+                
+                <p>Gauge pressure (absolute - atmospheric):</p>
+                <p>p_gauge = 678 kPa - 91 kPa = 587 kPa</p>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🤿</span> Understanding the Concepts</h3>
+                <p><strong>Absolute Pressure:</strong> Total pressure including atmospheric pressure. This is what a fish at the bottom would "feel".</p>
+                <p><strong>Gauge Pressure:</strong> Pressure relative to atmospheric. This is what most pressure gauges show (they're zeroed at atmospheric).</p>
+                <p><strong>Specific Weight (γ):</strong> Weight per unit volume (γ = ρg), where ρ is density and g is gravity.</p>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🤔</span> Think About This</h3>
+                <p>Why do we add atmospheric pressure for absolute pressure but subtract it for gauge pressure? What would happen if we used gauge pressure for scuba diving calculations?</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">🏗️</span> Practical Application</h3>
+                <p>This calculation is crucial for:</p>
+                <ul>
+                    <li>Designing dams and underwater structures</li>
+                    <li>Determining maximum diving depths</li>
+                    <li>Calculating forces on submerged objects</li>
+                </ul>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page1')">Previous</button>
+                <button onclick="showPage('page3')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 3 Content (Note Page 3 - Example 2) -->
+        <div id="page3" class="page">
+            <h1><span class="emoji">📖</span> Pressure in Multi-Layer Fluids</h1>
+            
+            <div class="example">
+                <h3><span class="emoji">🪣</span> Example Problem</h3>
+                <p>Write down expressions for pressure at different levels in a container with multiple fluids.</p>
+            </div>
+            
+            <div class="visual">
+                <p>Imagine a container with layers of different fluids:</p>
+                <ul>
+                    <li>Oil (ρₒ) on top</li>
+                    <li>Water (ρ_w) below oil</li>
+                    <li>Glycerin (ρ_G) below water</li>
+                    <li>Mercury (ρ_M) at the bottom</li>
+                </ul>
+            </div>
+            
+            <div class="solution-steps">
+                <h3><span class="emoji">📝</span> Pressure Calculation</h3>
+                <p>The pressure changes at each interface:</p>
+                <div class="equation">
+                    <p>p₂ - p₁ = -ρₒg(z₂ - z₁) <span class="emoji">🛢️</span></p>
+                    <p>p₃ - p₂ = -ρ_wg(z₃ - z₂) <span class="emoji">💧</span></p>
+                    <p>p₄ - p₃ = -ρ_Gg(z₄ - z₃) <span class="emoji">🍯</span></p>
+                    <p>p₅ - p₄ = -ρ_Mg(z₅ - z₄) <span class="emoji">⚗️</span></p>
+                </div>
+                <p>Total pressure difference: p₅ - p₁ = sum of all steps</p>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🧠</span> Understanding the Equations</h3>
+                <p>The negative sign appears because:</p>
+                <ul>
+                    <li>z increases upward (height coordinate)</li>
+                    <li>Pressure increases downward (as depth increases)</li>
+                    <li>Thus, as z decreases (going deeper), pressure increases</li>
+                </ul>
+                <p class="key-point">Each fluid contributes to the total pressure based on its density and thickness!</p>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">💡</span> Key Insight</h3>
+                <p>The pressure at any depth depends on:</p>
+                <ol>
+                    <li>The pressure at the reference point (usually surface)</li>
+                    <li>The weight of all fluid layers above that point</li>
+                </ol>
+                <p>This is why mercury (high density) creates much more pressure than water for the same height!</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">🏭</span> Practical Applications</h3>
+                <p>This principle is used in:</p>
+                <ul>
+                    <li>Manometers (pressure measurement devices)</li>
+                    <li>Oil-water separators in industrial processes</li>
+                    <li>Design of multi-fluid systems in chemical engineering</li>
+                </ul>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page2')">Previous</button>
+                <button onclick="showPage('page4')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 4 Content (Note Page 4 - Pressure Measuring Devices) -->
+        <div id="page4" class="page">
+            <h1><span class="emoji">📖</span> Pressure Measuring Devices</h1>
+            
+            <div class="definition">
+                <h3><span class="emoji">📏</span> Types of Pressure Measurement</h3>
+                <ul>
+                    <li><strong>Barometer:</strong> Measures atmospheric pressure</li>
+                    <li><strong>Piezometer:</strong> Measures low pressures</li>
+                    <li><strong>Manometers:</strong> Measure low pressures/pressure differences</li>
+                    <li><strong>Pressure gauges:</strong> Industrial applications</li>
+                </ul>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🌡️</span> 1. Barometer</h3>
+                <p>Measures atmospheric pressure using a column of liquid (usually mercury).</p>
+                <p><strong>How it works:</strong></p>
+                <ul>
+                    <li>A glass tube filled with mercury is inverted into a mercury reservoir</li>
+                    <li>Atmospheric pressure pushes down on the reservoir</li>
+                    <li>This balances the weight of the mercury column</li>
+                    <li>Height of column indicates pressure</li>
+                </ul>
+                <div class="equation">
+                    <p>pₐₜₘ = ρgh</p>
+                </div>
+                <p>Standard atmosphere = 760 mmHg at 0°C (ρ_Hg = 13,595 kg/m³, g = 9.807 m/s²)</p>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🧪</span> 2. Piezometer</h3>
+                <p>Simple tube used to measure pressure at a point in a fluid.</p>
+                <p><strong>Characteristics:</strong></p>
+                <ul>
+                    <li>Measures pressure relative to atmospheric</li>
+                    <li>Only works for liquids (not gases)</li>
+                    <li>Limited to low pressures (long tubes needed for high pressures)</li>
+                </ul>
+                <div class="equation">
+                    <p>p_A = γh (gauge pressure)</p>
+                    <p>p_A = γh + pₐₜₘ (absolute pressure)</p>
+                </div>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🤔</span> Compare and Contrast</h3>
+                <p>Why would you use a piezometer instead of a barometer? When would you need something more complex like a manometer?</p>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">⚗️</span> Why Mercury?</h3>
+                <p>Mercury is commonly used in barometers because:</p>
+                <ul>
+                    <li>High density (13.6 × water) means shorter columns</li>
+                    <li>Low vapor pressure (doesn't evaporate easily)</li>
+                    <li>Forms a clean meniscus for accurate measurement</li>
+                </ul>
+                <p class="key-point">A water barometer would need to be 13.6 times taller than a mercury one for the same pressure!</p>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page3')">Previous</button>
+                <button onclick="showPage('page5')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 5 Content (Note Page 5-6 - Barometer Example) -->
+        <div id="page5" class="page">
+            <h1><span class="emoji">📖</span> Barometer Example</h1>
+            
+            <div class="example">
+                <h3><span class="emoji">🌡️</span> Example Problem</h3>
+                <p>Determine the atmospheric pressure at a location where the barometric reading is 740 mmHg and the gravitational acceleration is g = 9.805 m/s². Assume the temperature of mercury to be 10°C, at which its density is 13,570 kg/m³.</p>
+            </div>
+            
+            <div class="solution-steps">
+                <h3><span class="emoji">🔢</span> Solution</h3>
+                <p><strong>Given:</strong></p>
+                <ul>
+                    <li>Barometric height (h) = 740 mmHg = 0.740 m</li>
+                    <li>Mercury density (ρ) = 13,570 kg/m³</li>
+                    <li>Gravity (g) = 9.805 m/s²</li>
+                </ul>
+                
+                <p><strong>Equation:</strong></p>
+                <div class="equation">
+                    <p>pₐₜₘ = ρgh</p>
+                </div>
+                
+                <p><strong>Calculation:</strong></p>
+                <p>pₐₜₘ = (13,570 kg/m³)(9.805 m/s²)(0.740 m)</p>
+                <p> = 98,482 Pa ≈ 98.5 kPa</p>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🌍</span> Real-World Implications</h3>
+                <p>This calculation shows how:</p>
+                <ul>
+                    <li>Atmospheric pressure varies with location (altitude, weather)</li>
+                    <li>Small changes in mercury height (mmHg) correspond to significant pressure changes</li>
+                    <li>Temperature affects readings (through density changes)</li>
+                </ul>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🧐</span> Critical Thinking</h3>
+                <p>Why does the density of mercury change with temperature? How would this affect barometric readings on a hot day vs. cold day if not corrected?</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">📉</span> Pressure Units</h3>
+                <p>Common pressure units and conversions:</p>
+                <ul>
+                    <li>1 atm = 760 mmHg = 760 torr = 101.325 kPa</li>
+                    <li>1 bar = 100 kPa ≈ 750 mmHg</li>
+                    <li>1 psi ≈ 6.895 kPa</li>
+                </ul>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page4')">Previous</button>
+                <button onclick="showPage('page6')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 6 Content (Note Page 7-8 - Manometers) -->
+        <div id="page6" class="page">
+            <h1><span class="emoji">📖</span> Manometers: Measuring Pressure Differences</h1>
+            
+            <div class="definition">
+                <h3><span class="emoji">📊</span> What is a Manometer?</h3>
+                <p>A device that measures pressure differences using liquid columns in a U-shaped tube.</p>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🔄</span> U-tube Manometer</h3>
+                <p>Consists of a U-shaped tube partially filled with a manometric fluid (often mercury).</p>
+                
+                <p><strong>Working Principle:</strong></p>
+                <p>Pressure difference causes displacement of the manometric fluid:</p>
+                <div class="equation">
+                    <p>p_A + γ₁h₁ = pₐₜₘ + γ₂h₂</p>
+                </div>
+                <p>Where:</p>
+                <ul>
+                    <li>γ₁ = specific weight of fluid in the system</li>
+                    <li>γ₂ = specific weight of manometric fluid</li>
+                    <li>h₁, h₂ = height differences</li>
+                </ul>
+                
+                <p><strong>Simplified for gauge pressure:</strong></p>
+                <div class="equation">
+                    <p>p_A, gauge = γ₂h₂ - γ₁h₁</p>
+                </div>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">⚖️</span> Why Use Different Fluids?</h3>
+                <p>The choice of manometric fluid depends on:</p>
+                <ul>
+                    <li><strong>Pressure range:</strong> High pressures need dense fluids (mercury)</li>
+                    <li><strong>Accuracy:</strong> Larger displacements are easier to measure</li>
+                    <li><strong>Compatibility:</strong> Shouldn't mix with measured fluid</li>
+                </ul>
+                <p class="key-point">Mercury (high density) is good for high pressures, while water or oil is better for low pressures!</p>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🤔</span> Design Consideration</h3>
+                <p>What would happen if you used water as the manometric fluid to measure high pressure gas? Why is mercury often preferred?</p>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page5')">Previous</button>
+                <button onclick="showPage('page7')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 7 Content (Note Page 9-14 - Advanced Manometers) -->
+        <div id="page7" class="page">
+            <h1><span class="emoji">📖</span> Advanced Manometer Types</h1>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">📐</span> Inclined Manometer</h3>
+                <p>Used for measuring very small pressure differences.</p>
+                <p><strong>Advantage:</strong></p>
+                <ul>
+                    <li>Small pressure difference creates larger liquid movement along the incline</li>
+                    <li>More sensitive than vertical manometers</li>
+                </ul>
+                <p><strong>Working Principle:</strong></p>
+                <div class="equation">
+                    <p>Δp = γl sinθ</p>
+                </div>
+                <p>Where l is the length along the incline and θ is the angle.</p>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🕳️</span> Well-type Manometer</h3>
+                <p>One leg is replaced by a large diameter well.</p>
+                <p><strong>Advantage:</strong></p>
+                <ul>
+                    <li>Only need to read one column height</li>
+                    <li>Well area >> tube area ⇒ small well level change</li>
+                </ul>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🔬</span> Micromanometer</h3>
+                <p>Highly sensitive device for minute pressure differences.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Uses multiple fluids with carefully chosen densities</li>
+                    <li>Amplifies small pressure differences into measurable displacements</li>
+                    <li>Equation accounts for fluid densities and tube/well areas</li>
+                </ul>
+                <div class="equation">
+                    <p>p₁ - p₂ ≈ (ρₘ - ρ₀)gv</p>
+                </div>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">💡</span> Application Insight</h3>
+                <p>Where might you use an inclined manometer versus a well-type manometer? Think about HVAC systems versus industrial process control.</p>
+            </div>
+            
+            <div class="why-important">
+                <h3><span class="emoji">🏭</span> Industrial Importance</h3>
+                <p>Different manometer types are used in:</p>
+                <ul>
+                    <li>HVAC systems (inclined)</li>
+                    <li>Laboratory measurements (micromanometers)</li>
+                    <li>Process industries (well-type)</li>
+                </ul>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page6')">Previous</button>
+                <button onclick="showPage('page8')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 8 Content (Note Page 15 - Industrial Gauges) -->
+        <div id="page8" class="page">
+            <h1><span class="emoji">📖</span> Industrial Pressure Measurement</h1>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">⚙️</span> Bourdon Tube Gauge</h3>
+                <p>Most common mechanical pressure gauge.</p>
+                <p><strong>How it works:</strong></p>
+                <ul>
+                    <li>Curved metal tube (Bourdon tube) straightens under pressure</li>
+                    <li>This motion is amplified by a linkage mechanism</li>
+                    <li>Moves a pointer across a calibrated scale</li>
+                </ul>
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                    <li>Robust and simple</li>
+                    <li>Wide pressure range</li>
+                    <li>No external power needed</li>
+                </ul>
+            </div>
+            
+            <div class="device-explanation">
+                <h3><span class="emoji">🔌</span> Pressure Transducers</h3>
+                <p>Electronic pressure sensors that convert pressure to electrical signals.</p>
+                <p><strong>Types:</strong></p>
+                <ul>
+                    <li>Strain gauge based</li>
+                    <li>Capacitive</li>
+                    <li>Piezoelectric</li>
+                </ul>
+                <p><strong>Advantages:</strong></p>
+                <ul>
+                    <li>High accuracy</li>
+                    <li>Digital output</li>
+                    <li>Can interface with control systems</li>
+                </ul>
+            </div>
+            
+            <div class="deep-dive">
+                <h3><span class="emoji">🏗️</span> Choosing the Right Device</h3>
+                <p>Selection depends on:</p>
+                <ul>
+                    <li><strong>Pressure range:</strong> Bourdon tubes for high pressures, transducers for precise measurements</li>
+                    <li><strong>Environment:</strong> Harsh conditions favor mechanical gauges</li>
+                    <li><strong>Output needs:</strong> Analog vs. digital</li>
+                    <li><strong>Accuracy requirements:</strong> Transducers typically more precise</li>
+                </ul>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">🔍</span> Future Trends</h3>
+                <p>How might IoT (Internet of Things) change pressure measurement in industries? What new capabilities would smart pressure sensors have?</p>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page7')">Previous</button>
+                <button onclick="showPage('page9')">Next</button>
+            </div>
+        </div>
+        
+        <!-- Page 9 Content (Note Page 16-19 - Example Problems) -->
+        <div id="page9" class="page">
+            <h1><span class="emoji">📖</span> Practice Problems</h1>
+            
+            <div class="example">
+                <h3><span class="emoji">✏️</span> Problem 1: Mercury Manometer</h3>
+                <p>If the cross-sectional area of the reservoir is 100 times that of the mercury manometer tube, find the pressure in the pipe. Column heights given are from the initial liquid level before the pipe is connected.</p>
+                <p>Given:</p>
+                <ul>
+                    <li>Liquid (S₁ = 0.8)</li>
+                    <li>Mercury (S₂ = 13.6)</li>
+                    <li>Heights: 300 mm and 500 mm</li>
+                </ul>
+            </div>
+            
+            <div class="solution-steps">
+                <h3><span class="emoji">🔢</span> Solution Approach</h3>
+                <p><strong>Key Concept:</strong> Volume displaced in reservoir = volume rise in tube</p>
+                <div class="equation">
+                    <p>AΔy = a×0.5 ⇒ Δy = 0.005 m (since A = 100a)</p>
+                </div>
+                <p><strong>Pressure balance:</strong></p>
+                <div class="equation">
+                    <p>p_A + (0.3 m)(0.8×1000 kg/m³)g = pₐₜₘ + (0.5 m)(13.6×1000 kg/m³)g</p>
+                </div>
+                <p>Solve for p_A - pₐₜₘ (gauge pressure)</p>
+            </div>
+            
+            <div class="example">
+                <h3><span class="emoji">✏️</span> Problem 2: Oil-Water Interface</h3>
+                <p>What would be the pressure difference between A & B to move the oil-water interface down by 10 mm?</p>
+                <p>Given:</p>
+                <ul>
+                    <li>Water in A (ρ = 1000 kg/m³)</li>
+                    <li>Oil in B (S = 0.83)</li>
+                </ul>
+            </div>
+            
+            <div class="solution-steps">
+                <h3><span class="emoji">🔢</span> Solution Approach</h3>
+                <p><strong>Initial condition:</strong></p>
+                <div class="equation">
+                    <p>p_A + h₁ρ_wg = p_B + h₂(0.83ρ_w)g</p>
+                </div>
+                <p><strong>After pressure application:</strong></p>
+                <div class="equation">
+                    <p>Interface moves down 10 mm ⇒ new heights</p>
+                </div>
+                <p>Calculate new pressure balance and find p_A - p_B</p>
+            </div>
+            
+            <div class="think-box">
+                <h3><span class="emoji">💪</span> Challenge Yourself</h3>
+                <p>Try solving these problems before looking at the full solutions in your notes. Remember the key principles:</p>
+                <ol>
+                    <li>Pressure changes with depth: p = ρgh</li>
+                    <li>At interfaces, pressure is equal on both sides</li>
+                    <li>Volume conservation in connected systems</li>
+                </ol>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="showPage('page8')">Previous</button>
+                <button onclick="showPage('home-page')">Finish</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
