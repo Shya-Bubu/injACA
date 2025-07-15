@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermo and Fluid | injACA</title>
+    <style>
+        :root {
+            --primary-color: #6e48aa;
+            --secondary-color: #9d50bb;
+            --dark-bg: #121212;
+            --darker-bg: #1e1e1e;
+            --card-bg: #252525;
+            --text-color: #e0e0e0;
+            --highlight: #7f53ac;
+            --container-width: 75%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: var(--container-width);
+            max-width: 1200px;
+            padding: 2rem 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .back-button {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: var(--highlight);
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .module-description {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+            width: 100%;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            position: relative;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab.active {
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .tab:hover:not(.active) {
+            opacity: 0.9;
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .topic-list {
+            list-style-type: none;
+            counter-reset: section-counter;
+        }
+
+        .main-topic {
+            font-weight: bold;
+            margin: 1.2rem 0 0.5rem;
+            font-size: 1.1rem;
+            color: var(--highlight);
+            display: flex;
+            align-items: center;
+        }
+
+        .main-topic::before {
+            counter-increment: section-counter;
+            content: counter(section-counter) ". ";
+            margin-right: 0.5rem;
+        }
+
+        .subtopic-list {
+            list-style-type: none;
+            margin-left: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--highlight);
+        }
+
+        .subtopic-item {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .subtopic-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--highlight);
+        }
+
+        .content-link {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+
+        .content-link:hover {
+            color: var(--highlight);
+            text-decoration: underline;
+        }
+
+        .pdf-icon::after {
+            content: " (PDF)";
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .video-icon::after {
+            content: " (Video)";
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 900px) {
+            :root {
+                --container-width: 90%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --container-width: 95%;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .main-topic {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="window.history.back()">←</button>
+            <h1>Thermo and Fluid</h1>
+        </div>
+
+        <p class="module-description">
+            Interesting Physics behind Thermodynamics and Fluid flow
+        </p>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="quizzes">Quizzes</div>
+            <div class="tab" data-tab="notes">Notes</div>
+            <div class="tab" data-tab="videos">Videos</div>
+        </div>
+
+        <!-- Quizzes Tab Content -->
+        <div class="tab-content active" id="quizzes">
+            <div class="content-section">
+                <h2>Practice Quizzes</h2>
+                <ul class="topic-list">
+                    <!-- Example Quiz Structure - Replace with your actual content -->
+                    <li>
+                        <div class="main-topic">Fluid Statics</div>
+                        <ul class="subtopic-list">
+                            <li class="subtopic-item">
+                                <a href="quizzes/matrices/lu-decomposition.html" class="content-link">Still NO</a>
+                          
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Notes Tab Content -->
+        <div class="tab-content" id="notes">
+            <div class="content-section">
+                <h2>AI Notes</h2>
+                <ul class="topic-list">
+                    <!-- Example Notes Structure - Replace with your actual content -->
+                    <li>
+                        <div class="main-topic">Fluid Statics</div>
+                        <ul class="subtopic-list">
+                            <li class="subtopic-item">
+                                <a href="notes/Fluid-Statics/FS_N3" class="content-link pdf-icon">Note for Lecture Note 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Add more notes topics as needed -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Videos Tab Content -->
+        <div class="tab-content" id="videos">
+            <div class="content-section">
+                <h2>Reference Videos</h2>
+                <ul class="topic-list">
+                    <!-- Example Videos Structure - Replace with your actual content -->
+                    <li>
+                        <div class="main-topic">Core Concepts</div>
+                        <ul class="subtopic-list">
+                            <li class="subtopic-item">
+                                <a href="https://www.youtube.com/watch?v=example1" target="_blank" class="content-link video-icon">NOPE</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="main-topic">Advanced Topics</div>
+                        <ul class="subtopic-list">
+                            <li class="subtopic-item">
+                                <a href="videos/jordan-form.txt" class="content-link video-icon">NOPE</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Add more video topics as needed -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
