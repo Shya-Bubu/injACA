@@ -1,103 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>injACA</title>
-  <style>
-    :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #ffffff;
-      --accent: #00bcd4;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>injACA</title>
+    <style>
+        :root {
+            --primary-color: #6e48aa;
+            --secondary-color: #9d50bb;
+            --dark-bg: #121212;
+            --darker-bg: #1e1e1e;
+            --card-bg: #252525;
+            --text-color: #e0e0e0;
+            --highlight: #7f53ac;
+        }
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    header {
-      padding: 1rem;
-      text-align: center;
-      background-color: #1a1a1a;
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--accent);
-    }
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-in-out;
+        }
 
-    .card {
-      background-color: var(--card-bg);
-      border-radius: 1rem;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    .card:hover {
-      transform: scale(1.05);
-    }
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
 
-    .card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .card-title {
-      padding: 1rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      text-align: center;
-      color: var(--accent);
-    }
+        .module-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    footer {
-      text-align: center;
-      padding: 1rem;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-  </style>
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--highlight);
+        }
+
+        .module-content {
+            padding: 1.2rem;
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .module-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .module-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .module-link:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>injACA</header>
-  <div class="grid">
-    <div class="card" onclick="location.href='modules/module1/index.html';">
-      <img src="assets/module1.jpg" alt="Module 1" />
-      <div class="card-title">Module 1: Linear Algebra</div>
-    </div>
-    <div class="card" onclick="location.href='modules/module2/index.html';">
-      <img src="assets/module2.jpg" alt="Module 2" />
-      <div class="card-title">Module 2: Material Science</div>
-    </div>
-    <div class="card" onclick="location.href='modules/module3/index.html';">
-      <img src="assets/module3.jpg" alt="Module 3" />
-      <div class="card-title">Module 3: Programming for Engineers</div>
-    </div>
-    <div class="card" onclick="location.href='modules/Thermo and Fluid/index.html';">
-      <img src="assets/module4.jpg" alt="Module 4" />
-      <div class="card-title">Module 4: Elementory Thermodynamics and Fluid Dynamics</div>
-    </div>
-    <div class="card" onclick="location.href='modules/module5/index.html';">
-      <img src="assets/module5.jpg" alt="Module 5" />
-      <div class="card-title">Module 5: Advanced Differential Equations</div>
-    </div>
-    <div class="card" onclick="location.href='modules/module6/index.html';">
-      <img src="assets/module6.jpg" alt="Module 6" />
-      <div class="card-title">Module 6: Electronic Device Physics</div>
-    </div>
-  </div>
-  <footer>&copy; E22 ELEC ACA</footer>
+    <header>
+        <h1>Kuppi Trical Tronic</h1>
+        <p class="subtitle">Electrical n Elecronic Engineering Academic Folder</p>
+    </header>
+
+    <main>
+        <div class="grid-container">
+            <!-- Linear Algebra -->
+            <div class="module-card">
+                <img src="assets/images/linear-algebra.jpg" alt="Linear Algebra" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Linear Algebra</h3>
+                    <p class="module-description">Vector spaces, transformations, matrices and more</p>
+                    <a href="modules/linear-algebra/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+
+            <!-- Material Science -->
+            <div class="module-card">
+                <img src="assets/images/material-science.jpg" alt="Material Science" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Material Science</h3>
+                    <p class="module-description">Structure, properties and processing of materials</p>
+                    <a href="modules/material-science/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+
+            <!-- Programming for Engineers II -->
+            <div class="module-card">
+                <img src="assets/images/programming.jpg" alt="Programming for Engineers II" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Programming for Engineers II</h3>
+                    <p class="module-description">Advanced programming concepts for engineering applications</p>
+                    <a href="modules/programming-ii/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+
+            <!-- Elementary Thermodynamics and Fluid Mechanics -->
+            <div class="module-card">
+                <img src="assets/images/thermodynamics.jpg" alt="Thermodynamics and Fluid Mechanics" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Elementary Thermodynamics and Fluid Mechanics</h3>
+                    <p class="module-description">Energy, heat, work and fluid behavior</p>
+                    <a href="modules/thermodynamics/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+
+            <!-- Advanced Differential Equations -->
+            <div class="module-card">
+                <img src="assets/images/differential-equations.jpg" alt="Advanced Differential Equations" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Advanced Differential Equations</h3>
+                    <p class="module-description">Solving complex differential equations</p>
+                    <a href="modules/differential-equations/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+
+            <!-- Electronic Device Physics -->
+            <div class="module-card">
+                <img src="assets/images/electronics.jpg" alt="Electronic Device Physics" class="module-image">
+                <div class="module-content">
+                    <h3 class="module-title">Electronic Device Physics</h3>
+                    <p class="module-description">Physics behind semiconductor devices</p>
+                    <a href="modules/electronic-devices/index.html" class="module-link">Explore Module</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 injACA Trical Tronic. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Add animation to cards when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card');
+            
+            cards.forEach((card, index) => {
+                // Add slight delay to each card's animation
+                card.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s forwards`;
+                card.style.opacity = 0;
+                
+                // Add click event to handle navigation
+                card.addEventListener('click', function(e) {
+                    // Don't navigate if clicking on the link (let the link handle it)
+                    if (!e.target.classList.contains('module-link')) {
+                        const link = card.querySelector('.module-link');
+                        if (link) {
+                            window.location.href = link.href;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
